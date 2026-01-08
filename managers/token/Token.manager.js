@@ -48,7 +48,7 @@ module.exports = class TokenManager {
         let decoded = null;
         try {
             decoded = jwt.verify(token, secret);
-        } catch(err) { console.log(err); }
+        } catch(err) { /* suppress log */ }
         return decoded;
     }
 
