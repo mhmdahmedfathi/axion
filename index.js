@@ -38,6 +38,10 @@ const cortex     = new Cortex({
 });
 const aeon = new Aeon({ cortex , timestampFrom: Date.now(), segmantDuration: 500 });
 
+// Connect to MongoDB
+const connectMongo = require('./connect/mongo');
+connectMongo({uri: config.dotEnv.MONGO_URI});
+
 const managersLoader = new ManagersLoader({config, cache, cortex, oyster, aeon});
 const managers = managersLoader.load();
 
