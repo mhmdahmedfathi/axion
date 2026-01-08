@@ -213,6 +213,11 @@ module.exports = ({ prefix, url}) => {
                 return result;
             },
     
+            incr: async ({ key }) => {
+                keyCheck(key);
+                let result = await redisClient.incr(key);
+                return result;
+            },
         },
         set: {
             add: async ({ key, arr }) => {
