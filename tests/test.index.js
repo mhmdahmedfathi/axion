@@ -1,12 +1,11 @@
-const config                = require('./config/index.config.js');
+const config                = require('../config/index.config.js');
 const Cortex                = require('ion-cortex');
-const ManagersLoader        = require('./loaders/ManagersLoader.js');
+const ManagersLoader        = require('../loaders/ManagersLoader.js');
 const Aeon                  = require('aeon-machine');
 
 process.on('uncaughtException', err => {
     console.log(`Uncaught Exception:`)
     console.log(err, err.stack);
-
     process.exit(1)
 })
 
@@ -15,7 +14,7 @@ process.on('unhandledRejection', (reason, promise) => {
     process.exit(1)
 })
 
-const cache      = require('./cache/cache.dbh')({
+const cache      = require('../cache/cache.dbh')({
     prefix: config.dotEnv.CACHE_PREFIX ,
     url: config.dotEnv.CACHE_REDIS
 });
@@ -39,10 +38,13 @@ const cortex     = new Cortex({
 const aeon = new Aeon({ cortex , timestampFrom: Date.now(), segmantDuration: 500 });
 
 // Connect to MongoDB
-const connectMongo = require('./connect/mongo');
+const connectMongo = require('../connect/mongo');
 connectMongo({uri: config.dotEnv.MONGO_URI});
 
 const managersLoader = new ManagersLoader({config, cache, cortex, oyster, aeon});
 const managers = managersLoader.load();
 
-managers.userServer.run();
+// Setup routes for testing
+managers.userServer.setup();
+
+module.exports = managers;

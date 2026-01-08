@@ -1,0 +1,378 @@
+openapi: 3.0.0
+info:
+  title: School Management API
+  description: API for managing schools, classrooms, and students.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5111
+    description: Local server
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
+paths:
+  /api/school/createSchool:
+    post:
+      summary: Create a new school
+      tags: [School]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - address
+                - principalName
+                - capacity
+              properties:
+                name:
+                  type: string
+                address:
+                  type: string
+                principalName:
+                  type: string
+                capacity:
+                  type: number
+      responses:
+        200:
+          description: School created
+        400:
+          description: Validation error
+  /api/school/listSchools:
+    get:
+      summary: List all schools
+      tags: [School]
+      responses:
+        200:
+          description: List of schools
+  /api/school/getSchool:
+    get:
+      summary: Get a specific school
+      tags: [School]
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: School details
+        404:
+          description: School not found
+  /api/school/updateSchool:
+    put:
+      summary: Update a school
+      tags: [School]
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                address:
+                  type: string
+                principalName:
+                  type: string
+                capacity:
+                  type: number
+      responses:
+        200:
+          description: School updated
+        404:
+          description: School not found
+  /api/school/deleteSchool:
+    delete:
+      summary: Delete a school
+      tags: [School]
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: School deleted
+        404:
+          description: School not found
+
+  /api/classroom/createClassroom:
+    post:
+      summary: Create a new classroom
+      tags: [Classroom]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - schoolId
+                - name
+              properties:
+                schoolId:
+                  type: string
+                name:
+                  type: string
+                capacity:
+                  type: number
+                grade:
+                  type: string
+                section:
+                  type: string
+                resources:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        200:
+          description: Classroom created
+        404:
+          description: School not found
+  /api/classroom/listClassrooms:
+    get:
+      summary: List classrooms for a school
+      tags: [Classroom]
+      parameters:
+        - in: query
+          name: schoolId
+          schema:
+            type: string
+      responses:
+        200:
+          description: List of classrooms
+  /api/classroom/getClassroom:
+    get:
+      summary: Get a classroom
+      tags: [Classroom]
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Classroom details
+        404:
+          description: Classroom not found
+  /api/classroom/updateClassroom:
+    put:
+      summary: Update a classroom
+      tags: [Classroom]
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                capacity:
+                  type: number
+                grade:
+                  type: string
+                section:
+                  type: string
+                resources:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        200:
+          description: Classroom updated
+        404:
+          description: Classroom not found
+  /api/classroom/deleteClassroom:
+    delete:
+      summary: Delete a classroom
+      tags: [Classroom]
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Classroom deleted
+        404:
+          description: Classroom not found
+
+  /api/student/createStudent:
+    post:
+      summary: Create a new student
+      tags: [Student]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - schoolId
+                - firstName
+                - lastName
+              properties:
+                schoolId:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+                dateOfBirth:
+                  type: string
+                enrollmentDate:
+                  type: string
+                classroomId:
+                  type: string
+      responses:
+        200:
+          description: Student created
+        404:
+          description: School or Classroom not found
+  /api/student/enrollStudent:
+    post:
+      summary: Enroll a student in a classroom
+      tags: [Student]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - studentId
+                - classroomId
+              properties:
+                studentId:
+                  type: string
+                classroomId:
+                  type: string
+      responses:
+        200:
+          description: Student enrolled
+        404:
+          description: Student or Classroom not found
+  /api/student/transferStudent:
+    put:
+      summary: Transfer a student
+      tags: [Student]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - studentId
+              properties:
+                studentId:
+                  type: string
+                targetClassroomId:
+                  type: string
+                targetSchoolId:
+                  type: string
+      responses:
+        200:
+          description: Student transferred
+        404:
+          description: Student, Target School, or Target Classroom not found
+  /api/student/listStudents:
+    get:
+      summary: List students
+      tags: [Student]
+      parameters:
+        - in: query
+          name: schoolId
+          schema:
+            type: string
+        - in: query
+          name: classroomId
+          schema:
+            type: string
+      responses:
+        200:
+          description: List of students
+  /api/student/getStudent:
+    get:
+      summary: Get a student
+      tags: [Student]
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Student details
+  /api/student/updateStudent:
+    put:
+      summary: Update a student
+      tags: [Student]
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                dateOfBirth:
+                  type: string
+                status:
+                  type: string
+      responses:
+        200:
+          description: Student updated
+        404:
+          description: Student not found
+  /api/student/deleteStudent:
+    delete:
+      summary: Delete a student
+      tags: [Student]
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Student deleted
+        404:
+          description: Student not found

@@ -30,6 +30,7 @@ module.exports = class ApiHandler {
         // console.log(`# Http API`);
         Object.keys(this.managers).forEach(mk=>{
             if(this.managers[mk][this.prop]){
+                this.methodMatrix[mk]={};
                 // console.log('managers - mk ', this.managers[mk])
                 this.methodMatrix[mk]={};
                 // console.log(`## ${mk}`);
@@ -46,6 +47,9 @@ module.exports = class ApiHandler {
                         this.methodMatrix[mk][method]=[];
                     }
                     this.methodMatrix[mk][method].push(fnName);
+
+
+
 
                     let params = getParamNames(this.managers[mk][fnName], fnName, mk);
                     params = params.split(',').map(i=>{
@@ -152,6 +156,7 @@ module.exports = class ApiHandler {
 
             let body = req.body || {};
             let result = await this._exec({targetModule: this.managers[moduleName], fnName, data: {
+                ...req.query,
                 ...body, 
                 ...results,
                 res,
@@ -165,7 +170,7 @@ module.exports = class ApiHandler {
                 if(result.errors){
                     return this.managers.responseDispatcher.dispatch(res, {ok: false, errors: result.errors});
                 } else if(result.error){
-                    return this.managers.responseDispatcher.dispatch(res, {ok: false, message: result.error});
+                    return this.managers.responseDispatcher.dispatch(res, {ok: false, message: result.error, code: result.code});
                 } else {
                     return this.managers.responseDispatcher.dispatch(res, {ok:true, data: result});
                 }
