@@ -4,6 +4,8 @@ info:
   description: API for managing schools, classrooms, and students.
   version: 1.0.0
 servers:
+  - url: https://axion-production-5fde.up.railway.app/
+    description: Production server
   - url: http://localhost:5111
     description: Local server
 components:
