@@ -8,7 +8,7 @@ services:
     environment:
       - CACHE_PREFIX=axion_catch
       - MONGO_URI=mongodb://mongodb:27017/axion
-      - REDIS_URI=redis://redis:6379
+      - REDIS_URI=${REDIS_URI}
       - USER_PORT=5111
       - SERVICE_NAME=axion
       - LONG_TOKEN_SECRET=long_super_secret_key_123
@@ -16,7 +16,6 @@ services:
       - NACL_SECRET=nacl_super_secret_key_789
     depends_on:
       - mongodb
-      - redis
     volumes:
       - .:/app
       - /app/node_modules
@@ -29,13 +28,5 @@ services:
     volumes:
       - mongodb_data:/data/db
 
-  redis:
-    image: redis:7.0
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-
 volumes:
   mongodb_data:
-  redis_data:

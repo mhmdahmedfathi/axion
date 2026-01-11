@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
     schoolId: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'School',
-        required: function() { return this.role === 'school_admin'; }
+        required: false 
     },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }

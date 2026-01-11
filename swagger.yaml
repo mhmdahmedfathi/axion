@@ -4,6 +4,8 @@ info:
   description: API for managing schools, classrooms, and students.
   version: 1.0.0
 servers:
+  - url: https://axion-production-5fde.up.railway.app/
+    description: Production server
   - url: http://localhost:5111
     description: Local server
 components:
@@ -15,6 +17,58 @@ components:
 security:
   - bearerAuth: []
 paths:
+  /api/auth/login:
+    post:
+      summary: User Login
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Login successful
+        401:
+          description: Invalid Credentials
+  /api/user/createUser:
+    post:
+      summary: User Sign Up
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+                  enum: [superadmin, school_admin]
+      responses:
+        200:
+          description: User created successfully
+        400:
+          description: Validation error or User already exists
   /api/school/createSchool:
     post:
       summary: Create a new school

@@ -16,8 +16,8 @@ module.exports = class User {
         return await bcrypt.hash(password, 10);
     }
 
-    async createUser({username, email, password, role, schoolId}){
-        const user = {username, email, password, role, schoolId};
+    async createUser({username, email, password, role}){
+        const user = {username, email, password, role};
 
         // Data validation
         let result = await this.validators.user.createUser(user);
@@ -38,7 +38,6 @@ module.exports = class User {
             email, 
             password: hashedPassword,
             role,
-            schoolId
         });
 
         await createdUser.save();

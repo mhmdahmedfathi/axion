@@ -17,9 +17,5 @@ module.exports = {
             model: 'role',
             required: false, // Optional, defaults to school_admin in mongoose model
         },
-        {
-            model: 'schoolId',
-            required: false, // Required if role is school_admin, but validation can be handled in manager or improved here
-        }
     ],
 }
