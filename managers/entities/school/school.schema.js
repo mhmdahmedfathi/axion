@@ -15,4 +15,10 @@ module.exports = {
         { model: 'principalName', required: false },
         { model: 'capacity', required: false },
     ],
+    getSchool: [
+        { model: 'id', required: true },
+    ],
+    deleteSchool: [
+        { model: 'id', required: true },
+    ],
 }

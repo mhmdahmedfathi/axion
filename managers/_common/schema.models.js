@@ -5,12 +5,14 @@ module.exports = {
         path: "id",
         type: "string",
         length: { min: 1, max: 50 },
+        regex: /^[0-9a-fA-F]{24}$/,
     },
     schoolId: {
         path: "schoolId",
         type: "string",
         length: { min: 1, max: 50 },
         label: 'School ID',
+        regex: /^[0-9a-fA-F]{24}$/,
     },
     username: {
         path: 'username',
@@ -187,24 +189,28 @@ module.exports = {
         type: 'string',
         length: {min: 1, max: 50},
         label: 'Student ID',
+        regex: /^[0-9a-fA-F]{24}$/,
     },
     classroomId: {
         path: 'classroomId',
         type: 'string',
         length: {min: 1, max: 50},
         label: 'Classroom ID',
+        regex: /^[0-9a-fA-F]{24}$/,
     },
     targetClassroomId: {
         path: 'targetClassroomId',
         type: 'string',
         length: {min: 1, max: 50},
         label: 'Target Classroom ID',
+        regex: /^[0-9a-fA-F]{24}$/,
     },
     targetSchoolId: {
         path: 'targetSchoolId',
         type: 'string',
         length: {min: 1, max: 50},
         label: 'Target School ID',
+        regex: /^[0-9a-fA-F]{24}$/,
     },
     status: {
         path: 'status',

@@ -64,8 +64,6 @@ paths:
                 role:
                   type: string
                   enum: [superadmin, school_admin]
-                schoolId:
-                  type: string
       responses:
         200:
           description: User created successfully

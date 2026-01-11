@@ -27,10 +27,9 @@ module.exports = class School {
     }
 
     async getSchool({__longToken, id}){
-        // If school admin, check if id matches their schoolId? 
-        // Or we rely on __schoolAccess middleware if accessing other schools. 
-        // But getSchool usually is fine to get details if you are authorized.
-        
+        let result = await this.validators.school.getSchool({id});
+        if(result) return { errors: result };
+
         let school = await this.mongomodels.school.findById(id);
         if(!school) return { error: 'School not found' };
         return { school };
@@ -60,6 +59,9 @@ module.exports = class School {
     }
 
     async deleteSchool({__longToken, id}){
+        let result = await this.validators.school.deleteSchool({id});
+        if(result) return { errors: result };
+
         let school = await this.mongomodels.school.findByIdAndDelete(id);
         if(!school) return { error: 'School not found' };
         return { ok: true };
